@@ -1,6 +1,11 @@
 # orm
 A simple Object–relational mapping for Java
 
+## install
+```
+mvn clean install -DskipTests
+```
+
 ## example
 1. create a POJO class
 

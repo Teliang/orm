@@ -13,8 +13,7 @@ public class RefectionUtils {
 
 	public static Field[] getNonNullFields(Object obj, Field[] fields) {
 		List<Field> nonNullFields = new ArrayList<>();
-		for (int i = 0; i < fields.length; i++) {
-			Field field = fields[i];
+		for (Field field : fields) {
 
 			Class<?> type = field.getType();
 			if (type.isPrimitive()) {
@@ -133,10 +132,8 @@ public class RefectionUtils {
 	}
 
 	public static Field[] getKeyFileds(Field[] fields) {
-		List<Field> keyFields = Stream.of(fields).filter(field -> {
-			PrimaryKey annotation = field.getAnnotation(PrimaryKey.class);
-			return annotation != null;
-		}).toList();
+		List<Field> keyFields = Stream.of(fields).filter(field -> field.getAnnotation(PrimaryKey.class) != null)
+				.toList();
 		return keyFields.toArray(new Field[0]);
 	}
 

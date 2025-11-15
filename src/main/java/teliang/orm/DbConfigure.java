@@ -1,7 +1,7 @@
 package teliang.orm;
 
 public class DbConfigure {
-	String url;
-	String user;
-	String password;
+	public String url;
+	public String user;
+	public String password;
 }
