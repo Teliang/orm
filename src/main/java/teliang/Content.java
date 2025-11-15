@@ -21,7 +21,7 @@ public class Content {
 		try {
 			return DriverManager.getConnection(dbConfigure.url, dbConfigure.user, dbConfigure.password);
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new ORMException(e);
 		}
 	}
 

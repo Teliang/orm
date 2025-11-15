@@ -27,7 +27,7 @@ public class RefectionUtils {
 					}
 					nonNullFields.add(field);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
-					throw new RuntimeException(e);
+					throw new ORMException(e);
 				}
 			}
 		}
@@ -48,7 +48,7 @@ public class RefectionUtils {
 				}
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | SecurityException e) {
-			throw new RuntimeException(e);
+			throw new ORMException(e);
 		}
 	}
 
@@ -57,7 +57,7 @@ public class RefectionUtils {
 			return clazz.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			throw new RuntimeException(e);
+			throw new ORMException(e);
 		}
 	}
 
@@ -79,7 +79,7 @@ public class RefectionUtils {
 					Object value = field.get(obj);
 					st.setObject(begin + i + 1, value);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
-					throw new RuntimeException(e);
+					throw new ORMException(e);
 				}
 			}
 		}

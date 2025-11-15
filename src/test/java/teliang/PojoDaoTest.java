@@ -1,6 +1,7 @@
 package teliang;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -61,6 +62,18 @@ public class PojoDaoTest {
 
 		assertEquals(10L, ret.id);
 		assertEquals("teliang", ret.name.trim());
+	}
+
+	@Test
+	public void selectById_notExist() {
+		String sql = "insert into Pojo ( id,name ) VALUES ( 10,'teliang' )";
+		executeSql(sql);
+
+		Pojo t = new Pojo();
+		t.id = 100L;
+		Pojo ret = dao.selectById(t);
+
+		assertNull(ret);
 	}
 
 	@Test

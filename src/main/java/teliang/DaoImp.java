@@ -33,9 +33,8 @@ public class DaoImp implements Dao<Object> {
 			log.info(() -> "insert count: " + count);
 			return count;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new ORMException(e);
 		}
-		return 0;
 	}
 
 	@Override
@@ -57,7 +56,7 @@ public class DaoImp implements Dao<Object> {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new ORMException(e);
 		}
 
 		log.info("selectById result: " + ret);
@@ -83,7 +82,7 @@ public class DaoImp implements Dao<Object> {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new ORMException(e);
 		}
 		log.info(() -> "select result: " + ret);
 		return ret;
@@ -108,9 +107,8 @@ public class DaoImp implements Dao<Object> {
 			log.info(() -> "updateById count: " + count);
 			return count;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new ORMException(e);
 		}
-		return 0;
 	}
 
 	@Override
@@ -129,9 +127,8 @@ public class DaoImp implements Dao<Object> {
 			log.info(() -> "deleteById count: " + count);
 			return count;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new ORMException(e);
 		}
-		return 0;
 	}
 
 }
