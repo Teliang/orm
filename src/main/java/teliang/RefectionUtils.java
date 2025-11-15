@@ -21,6 +21,7 @@ public class RefectionUtils {
 				throw new IllegalArgumentException("Unexpected value: " + type);
 			} else {
 				try {
+					field.setAccessible(true);
 					Object value = field.get(obj);
 					if (value == null) {
 						continue;
@@ -44,6 +45,7 @@ public class RefectionUtils {
 				} else {
 					String name = field.getName();
 					Object value = resultSet.getObject(name);
+					field.setAccessible(true);
 					field.set(ret, value);
 				}
 			}
@@ -76,6 +78,7 @@ public class RefectionUtils {
 				throw new IllegalArgumentException("Unexpected value: " + type);
 			} else {
 				try {
+					field.setAccessible(true);
 					Object value = field.get(obj);
 					st.setObject(begin + i + 1, value);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
