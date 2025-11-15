@@ -3,19 +3,20 @@ package teliang;
 import java.lang.reflect.Field;
 
 public class SqlGenerator {
+	private static final Log log = new Log(SqlGenerator.class);
+
 	public static String genInsert(Class<?> clazz) {
 		String tableName = RefectionUtils.getTableName(clazz);
 
 		Field[] fields = clazz.getDeclaredFields();
 
-		String allColumns = RefectionUtils.getAllColumns(fields);
+		String selectClause = RefectionUtils.getSelectClause(fields);
 
-		String allColumnMarks = RefectionUtils.getAllColumnMarks(fields);
+		String insertValueClause = RefectionUtils.getInsertValueClause(fields);
 
-		String sql = String.format("insert into %s ( %s ) VALUES ( %s )", tableName, allColumns, allColumnMarks);
+		String sql = String.format("insert into %s ( %s ) VALUES ( %s )", tableName, selectClause, insertValueClause);
 
-		System.out.print("genInsert: ");
-		System.out.println(sql);
+		log.info(() -> "genInsert: " + sql);
 		return sql;
 	}
 
@@ -24,15 +25,63 @@ public class SqlGenerator {
 
 		Field[] fields = clazz.getDeclaredFields();
 
-		String allColumns = RefectionUtils.getAllColumns(fields);
+		String selectClause = RefectionUtils.getSelectClause(fields);
 
-		Field[]keyFields = RefectionUtils.getKeyFileds(fields);
+		Field[] keyFields = RefectionUtils.getKeyFileds(fields);
 
-		String whereMarks = RefectionUtils.getWhereMarks(keyFields);
-		String sql = String.format("select %s from %s where %s", allColumns, tableName, whereMarks);
+		String whereClause = RefectionUtils.getWhereClause(keyFields);
+		String sql = String.format("select %s from %s where %s", selectClause, tableName, whereClause);
 
-		System.out.print("genSelectById: ");
-		System.out.println(sql);
+		log.info(() -> "genSelectById: " + sql);
+		return sql;
+	}
+
+	public static String genSelect(Class<?> clazz, Object obj) {
+		String tableName = RefectionUtils.getTableName(clazz);
+
+		Field[] fields = clazz.getDeclaredFields();
+
+		String selectClause = RefectionUtils.getSelectClause(fields);
+
+		Field[] nonoNullFields = RefectionUtils.getNonNullFields(obj, fields);
+
+		String whereClause = RefectionUtils.getWhereClause(nonoNullFields);
+		String sql = String.format("select %s from %s where %s", selectClause, tableName, whereClause);
+
+		log.info(() -> "genSelect: " + sql);
+		return sql;
+	}
+
+	public static String genUpdateById(Class<?> clazz) {
+		String tableName = RefectionUtils.getTableName(clazz);
+
+		Field[] fields = clazz.getDeclaredFields();
+
+		Field[] keyFields = RefectionUtils.getKeyFileds(fields);
+
+		Field[] setFields = RefectionUtils.filter(fields, keyFields);
+
+		String setClause = RefectionUtils.getWhereClause(setFields);
+
+		String whereClause = RefectionUtils.getWhereClause(keyFields);
+
+		String sql = String.format("update %s set %s where %s", tableName, setClause, whereClause);
+
+		log.info(() -> "updateById: " + sql);
+		return sql;
+	}
+
+	public static String genDeleteById(Class<?> clazz) {
+		String tableName = RefectionUtils.getTableName(clazz);
+
+		Field[] fields = clazz.getDeclaredFields();
+
+		Field[] keyFields = RefectionUtils.getKeyFileds(fields);
+
+		String whereMarks = RefectionUtils.getWhereClause(keyFields);
+		String sql = String.format("delete from %s where %s", tableName, whereMarks);
+
+		log.info(() -> "deleteById: " + sql);
 		return sql;
 	}
 

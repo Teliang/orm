@@ -1,8 +1,5 @@
 package teliang;
 
-/**
- * CREATE TABLE IF NOT EXISTS pojo(id BIGINT,name char(64));
- */
 public class Pojo {
 	@PrimaryKey
 	Long id;

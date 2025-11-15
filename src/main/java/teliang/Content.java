@@ -9,32 +9,30 @@ import java.sql.SQLException;
 import teliang.proxy.DynamicInvocationHandler;
 
 public class Content {
+	private static final Log log = new Log(Content.class);
+	private DbConfigure dbConfigure;
 
-	private Connection con;
-
-	public Content() {
-		String url = "jdbc:postgresql://192.168.2.2:5432/teliang";
-		String user = "teliang";
-		String password = "todo";
-		try {
-			con = DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+	public Content(DbConfigure dbConfigure) {
+		this.dbConfigure = dbConfigure;
 
 	}
 
 	public Connection getConnection() {
-		return con;
+		try {
+			return DriverManager.getConnection(dbConfigure.url, dbConfigure.user, dbConfigure.password);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T> T getDao(Class<T> c) {
 		ParameterizedType genericInterfaces = (ParameterizedType) c.getGenericInterfaces()[0];
-		System.out.print("getDao: ");
-		System.out.println(genericInterfaces.getActualTypeArguments()[0]);
+		log.info(() -> "getDao: " + genericInterfaces.getActualTypeArguments()[0]);
+
 		Object proxyInstance = Proxy.newProxyInstance(Content.class.getClassLoader(), new Class[] { c },
-				new DynamicInvocationHandler((Class<?>) genericInterfaces.getActualTypeArguments()[0], con));
+				new DynamicInvocationHandler((Class<?>) genericInterfaces.getActualTypeArguments()[0],
+						getConnection()));
 		return (T) proxyInstance;
 	}
 }
