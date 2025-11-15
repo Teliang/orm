@@ -4,41 +4,36 @@ import java.lang.reflect.Field;
 
 public class SqlGenerator {
 	public static String genInsert(Class<?> clazz) {
-
-		String name = clazz.getName();
-		String tableName = name.substring(name.lastIndexOf('.') + 1);
+		String tableName = RefectionUtils.getTableName(clazz);
 
 		Field[] fields = clazz.getDeclaredFields();
 
-		StringBuilder sqlBuilder = new StringBuilder();
-		sqlBuilder.append("insert into ");
-		sqlBuilder.append(tableName);
-		sqlBuilder.append("(");
+		String allColumns = RefectionUtils.getAllColumns(fields);
 
-		for (int i = 0; i < fields.length; i++) {
-			sqlBuilder.append(fields[i].getName());
+		String allColumnMarks = RefectionUtils.getAllColumnMarks(fields);
 
-			if (i != fields.length - 1) {
-				sqlBuilder.append(",");
-			}
-		}
-
-		sqlBuilder.append(")");
-		sqlBuilder.append(" VALUES ");
-		sqlBuilder.append("(");
-
-		for (int i = 0; i < fields.length; i++) {
-			sqlBuilder.append("?");
-
-			if (i != fields.length - 1) {
-				sqlBuilder.append(",");
-			}
-		}
-		sqlBuilder.append(")");
-		String sql = sqlBuilder.toString();
+		String sql = String.format("insert into %s ( %s ) VALUES ( %s )", tableName, allColumns, allColumnMarks);
 
 		System.out.print("genInsert: ");
 		System.out.println(sql);
 		return sql;
 	}
+
+	public static String genSelectById(Class<?> clazz) {
+		String tableName = RefectionUtils.getTableName(clazz);
+
+		Field[] fields = clazz.getDeclaredFields();
+
+		String allColumns = RefectionUtils.getAllColumns(fields);
+
+		Field[]keyFields = RefectionUtils.getKeyFileds(fields);
+
+		String whereMarks = RefectionUtils.getWhereMarks(keyFields);
+		String sql = String.format("select %s from %s where %s", allColumns, tableName, whereMarks);
+
+		System.out.print("genSelectById: ");
+		System.out.println(sql);
+		return sql;
+	}
+
 }

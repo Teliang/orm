@@ -24,12 +24,17 @@ public class Content {
 
 	}
 
+	public Connection getConnection() {
+		return con;
+	}
+
+	@SuppressWarnings("unchecked")
 	public <T> T getDao(Class<T> c) {
 		ParameterizedType genericInterfaces = (ParameterizedType) c.getGenericInterfaces()[0];
 		System.out.print("getDao: ");
 		System.out.println(genericInterfaces.getActualTypeArguments()[0]);
 		Object proxyInstance = Proxy.newProxyInstance(Content.class.getClassLoader(), new Class[] { c },
-				new DynamicInvocationHandler((Class) genericInterfaces.getActualTypeArguments()[0], con));
+				new DynamicInvocationHandler((Class<?>) genericInterfaces.getActualTypeArguments()[0], con));
 		return (T) proxyInstance;
 	}
 }
