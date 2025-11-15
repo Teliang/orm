@@ -1,11 +1,8 @@
-package teliang.proxy;
+package teliang.orm;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.sql.Connection;
-
-import teliang.DaoImp;
-import teliang.Log;
 
 public class DynamicInvocationHandler implements InvocationHandler {
 	private static final Log log = new Log(DynamicInvocationHandler.class);

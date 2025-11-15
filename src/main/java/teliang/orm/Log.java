@@ -1,4 +1,4 @@
-package teliang;
+package teliang.orm;
 
 import java.util.function.Supplier;
 

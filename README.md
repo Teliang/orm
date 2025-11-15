@@ -7,8 +7,8 @@ A simple Object–relational mapping for Java
 ```Java
 public class Pojo {
 	@PrimaryKey
-	Long id;
-	String name;
+	public Long id;
+	public String name;
 
 	@Override
 	public String toString() {

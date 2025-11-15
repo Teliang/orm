@@ -1,9 +1,9 @@
-package teliang;
+package teliang.orm;
 
 public class Pojo {
 	@PrimaryKey
-	Long id;
-	String name;
+	public Long id;
+	public String name;
 
 	@Override
 	public String toString() {

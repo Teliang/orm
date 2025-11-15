@@ -1,4 +1,4 @@
-package teliang;
+package teliang.orm;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;

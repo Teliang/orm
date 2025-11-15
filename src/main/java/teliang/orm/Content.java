@@ -1,12 +1,10 @@
-package teliang;
+package teliang.orm;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import teliang.proxy.DynamicInvocationHandler;
 
 public class Content {
 	private static final Log log = new Log(Content.class);

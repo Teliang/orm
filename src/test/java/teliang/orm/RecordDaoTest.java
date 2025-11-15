@@ -1,4 +1,4 @@
-package teliang;
+package teliang.orm;
 
 public class RecordDaoTest {
 }
