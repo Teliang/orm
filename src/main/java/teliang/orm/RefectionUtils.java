@@ -31,7 +31,7 @@ public class RefectionUtils {
 				}
 			}
 		}
-		return nonNullFields.toArray(new Field[0]);
+		return nonNullFields.toArray(Field[]::new);
 	}
 
 	public static void setValueToObject(Object ret, Field[] fields, ResultSet resultSet) throws SQLException {
@@ -132,9 +132,9 @@ public class RefectionUtils {
 	}
 
 	public static Field[] getKeyFileds(Field[] fields) {
-		List<Field> keyFields = Stream.of(fields).filter(field -> field.getAnnotation(PrimaryKey.class) != null)
-				.toList();
-		return keyFields.toArray(new Field[0]);
+		Field[] keyFields = Stream.of(fields).filter(field -> field.getAnnotation(PrimaryKey.class) != null)
+				.toArray(Field[]::new);
+		return keyFields;
 	}
 
 	public static Field[] filter(Field[] fields, Field[] keyFields) {
@@ -144,7 +144,7 @@ public class RefectionUtils {
 					return false;
 			}
 			return true;
-		}).toList().toArray(new Field[0]);
+		}).toArray(Field[]::new);
 		return setFields;
 	}
 }
