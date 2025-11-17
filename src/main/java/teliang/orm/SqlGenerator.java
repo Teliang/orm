@@ -78,8 +78,8 @@ public class SqlGenerator {
 
 		Field[] keyFields = RefectionUtils.getKeyFileds(fields);
 
-		String whereMarks = RefectionUtils.getWhereClause(keyFields);
-		String sql = String.format("delete from %s where %s", tableName, whereMarks);
+		String whereClause = RefectionUtils.getWhereClause(keyFields);
+		String sql = String.format("delete from %s where %s", tableName, whereClause);
 
 		log.info(() -> "deleteById: " + sql);
 		return sql;

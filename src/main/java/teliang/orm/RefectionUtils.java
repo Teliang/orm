@@ -96,11 +96,10 @@ public class RefectionUtils {
 	public static String getSelectClause(Field[] fields) {
 		StringBuilder sqlBuilder = new StringBuilder();
 		for (int i = 0; i < fields.length; i++) {
-			sqlBuilder.append(fields[i].getName());
-
-			if (i != fields.length - 1) {
+			if (i > 0)
 				sqlBuilder.append(",");
-			}
+
+			sqlBuilder.append(fields[i].getName());
 		}
 		return sqlBuilder.toString();
 	}
@@ -109,11 +108,10 @@ public class RefectionUtils {
 
 		StringBuilder sqlBuilder = new StringBuilder();
 		for (int i = 0; i < fields.length; i++) {
-			sqlBuilder.append("?");
-
-			if (i != fields.length - 1) {
+			if (i > 0)
 				sqlBuilder.append(",");
-			}
+
+			sqlBuilder.append("?");
 		}
 		return sqlBuilder.toString();
 	}
@@ -121,12 +119,12 @@ public class RefectionUtils {
 	public static String getWhereClause(Field[] keyFields) {
 		StringBuilder sqlBuilder = new StringBuilder();
 		for (int i = 0; i < keyFields.length; i++) {
+			if (i > 0)
+				sqlBuilder.append(" and ");
+
 			sqlBuilder.append(keyFields[i].getName());
 			sqlBuilder.append(" = ");
 			sqlBuilder.append("?");
-			if (i != keyFields.length - 1) {
-				sqlBuilder.append(" and ");
-			}
 		}
 		return sqlBuilder.toString();
 	}
